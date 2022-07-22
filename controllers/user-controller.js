@@ -1,5 +1,6 @@
 const { User } = require('../models');
 
+// USER CONTROLLER
 const userController = {
     // gets all users
     getAllUsers(req, res) {
@@ -110,8 +111,9 @@ const userController = {
         )
         .populate({
             path: 'friends',
-            select: ('-__v')
+            select: '-__v'
         })
+        .select('-__v')
         .then(dbUserData => {
             if(!dbUserData) {
                 res.status(404).json({ message: 'No user found with this id!' });
