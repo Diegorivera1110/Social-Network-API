@@ -33,11 +33,12 @@ const thoughtsController = {
         });
     },
     
-    createThought({ params }, res) {
+    createThought({ params, body }, res) {
+        console.log(body);
         Thought.create(body)
         .then(({ _id }) => {
             return User.findOneAndUpdate(
-                { _id: paramns.UserId },
+                { _id: params.UserId },
                 { $push: { thoughts: _id }},
                 { new: true, runValidators: true }
             );
@@ -45,7 +46,7 @@ const thoughtsController = {
         .then(dbThoughts => {
             if (!dbThoughts) {
                 res.status(404).json({ message: 'No thought with this id!' });
-                return
+                return;
             }
             res.json(dbThoughts);
         })
@@ -82,7 +83,7 @@ const thoughtsController = {
         .catch(err => res.status(400).json(err));
     },
 
-    
+
     // REACTIONS PART OF CONTROLLER
     addReaction({ params, body }, res) {
         Reaction.findOneAndUpdate(

@@ -13,9 +13,9 @@ const reactionSchema = new Schema({
         maxlength: 180,
         minlength: 1
     },
-    username: {
+    userName: {
         type: String,
-        require: true
+        required: true
     },
     createdAt: {
         type: Date,
@@ -43,9 +43,9 @@ const thoughtSchema = new Schema ({
         default: Date.now,
         get: createdAtVal => dateFormat(createdAtVal)
     },
-    username: {
+    userName: {
         type: String,
-        require: true
+        required: true
     },
     reactions: [reactionSchema]
 },
