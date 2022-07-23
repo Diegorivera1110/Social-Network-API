@@ -53,7 +53,7 @@ const userController = {
         .catch(err => res.status(400).json(err));
     },
 
-    updateuser({ params, body}, res) {
+    updateUser({ params, body}, res) {
         User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
         .then(dbUserData => {
             if (!dbUserData) {
