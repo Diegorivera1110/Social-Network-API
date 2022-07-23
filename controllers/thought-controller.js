@@ -52,6 +52,7 @@ const thoughtsController = {
         .catch(err => res.status(400).json(err));
     },
 
+    
     deleteThought({ params }, res) {
         Thought.findOneAndDelete({ _id: params.id })
         .then(dbThoughts => {
@@ -63,7 +64,25 @@ const thoughtsController = {
         })
         .catch(err => res.status(400).json(err));
     },
+    
+    updateThought({ params, body }, res) {
+        Thought.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true})
+        .populate({
+            path: 'reactions',
+            select: '-__v'
+        })
+        .select('-__v')
+        .then(dbThoughts => {
+            if (!dbThoughts) {
+                res.status(404).json({ message: 'No thought found with this id!' });
+                return;
+            }
+            res.json(dbThoughts);
+        })
+        .catch(err => res.status(400).json(err));
+    },
 
+    
     // REACTIONS PART OF CONTROLLER
     addReaction({ params, body }, res) {
         Reaction.findOneAndUpdate(
